@@ -1,5 +1,3 @@
-
-
 resource "oci_core_vcn" "main" {
   compartment_id = oci_identity_compartment.tf-compartment.id
   cidr_block     = local.vcn_cidr_block
@@ -69,7 +67,7 @@ resource "oci_core_default_route_table" "rt-private" {
 }
 
 resource "oci_core_subnet" "public" {
-  cidr_block                 = "10.0.10.0/24"
+  cidr_block                 = local.public_subnet_cidr_block
   compartment_id             = oci_identity_compartment.tf-compartment.id
   vcn_id                     = oci_core_vcn.main.id
   prohibit_public_ip_on_vnic = false
@@ -78,7 +76,7 @@ resource "oci_core_subnet" "public" {
 }
 
 resource "oci_core_subnet" "private" {
-  cidr_block                 = "10.0.20.0/24"
+  cidr_block                 = local.private_subnet_cidr_block
   compartment_id             = oci_identity_compartment.tf-compartment.id
   vcn_id                     = oci_core_vcn.main.id
   prohibit_public_ip_on_vnic = true
