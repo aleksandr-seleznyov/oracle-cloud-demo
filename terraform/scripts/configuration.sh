@@ -23,9 +23,9 @@ sudo iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 
 
 #Install teleport master (amd64)
-sudo yum-config-manager --add-repo https://rpm.releases.teleport.dev/teleport.repo
-sudo yum install teleport
-sudo /usr/local/bin/teleport configure --acme --acme-email=<your email> --cluster-name=access.<your domain> -o file
+sudo yum-config-manager --add-repo https://rpm.releases.teleport.dev/teleport.repo -y
+sudo yum install teleport -y
+sudo /usr/local/bin/teleport configure --acme --acme-email=<your email> --cluster-name=access.<your domain>
 sudo systemctl start teleport
 sudo systemctl enable teleport
 
