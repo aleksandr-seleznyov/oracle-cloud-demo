@@ -1,9 +1,8 @@
 .idea
 .terraform
 .DS_Store
-terraform.tfstate
-terraform.tfstate.backup
+terraform/oci-connection
+terraform.tfstate*
 ssh-keys-real
 ssh-keys-empty
 ssh-keys
-
