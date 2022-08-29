@@ -142,8 +142,16 @@ resource "oci_network_load_balancer_network_load_balancer" "access-nlb" {
   compartment_id                 = oci_identity_compartment.tf-compartment.id
   display_name                   = "Access NLB"
   subnet_id                      = oci_core_subnet.public.id
-  is_preserve_source_destination = true
+  is_preserve_source_destination = false
   is_private                     = false
+}
+
+resource "oci_network_load_balancer_listener" "access-nlb" {
+  default_backend_set_name = oci_network_load_balancer_backend_set.teleport.name
+  name                     = "teleport"
+  network_load_balancer_id = oci_network_load_balancer_network_load_balancer.access-nlb.id
+  port                     = 443
+  protocol                 = "TCP"
 }
 
 resource "oci_network_load_balancer_backend_set" "teleport" {
@@ -155,6 +163,7 @@ resource "oci_network_load_balancer_backend_set" "teleport" {
     timeout_in_millis  = 3000
     interval_in_millis = 10000
     retries            = 3
+    port = 443
   }
 }
 
@@ -166,7 +175,6 @@ resource "oci_network_load_balancer_backend" "teleport" {
   target_id                = oci_core_instance.access-vm.id
   weight                   = 1
 }
-
 
 resource "oci_load_balancer" "applications-lb" {
   compartment_id = oci_identity_compartment.tf-compartment.id
