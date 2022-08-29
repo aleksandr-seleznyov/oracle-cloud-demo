@@ -1,5 +1,9 @@
 .idea
 .terraform
+.DS_Store
 terraform.tfstate
 terraform.tfstate.backup
 ssh-keys-real
+ssh-keys-empty
+ssh-keys
+
