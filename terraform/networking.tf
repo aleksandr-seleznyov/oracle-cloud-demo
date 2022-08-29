@@ -18,8 +18,6 @@ resource "oci_core_nat_gateway" "ngw-main" {
   display_name   = "Main NAT Gateway"
 }
 
-
-
 resource "oci_bastion_bastion" "bastion" {
   bastion_type                 = "STANDARD"
   compartment_id               = oci_identity_compartment.tf-compartment.id
@@ -44,8 +42,6 @@ resource "oci_core_service_gateway" "sgw-main" {
     service_id = lookup(data.oci_core_services.all_oci_services.services[0], "id")
   }
 }
-
-
 
 resource "oci_core_route_table" "rt-public" {
   compartment_id = oci_identity_compartment.tf-compartment.id
@@ -89,7 +85,6 @@ resource "oci_core_subnet" "private" {
   route_table_id             = oci_core_default_route_table.rt-private.id
   display_name               = "Private Subnet"
 }
-
 
 # Protocol numbers: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 resource "oci_core_default_security_list" "sl-vcn" {
@@ -163,7 +158,7 @@ resource "oci_network_load_balancer_backend_set" "teleport" {
     timeout_in_millis  = 3000
     interval_in_millis = 10000
     retries            = 3
-    port = 443
+    port               = 443
   }
 }
 
