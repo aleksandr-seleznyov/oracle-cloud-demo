@@ -2,6 +2,7 @@ resource "oci_core_vcn" "main" {
   compartment_id = oci_identity_compartment.tf-compartment.id
   cidr_block     = local.vcn_cidr_block
   display_name   = "Main VCN"
+  dns_label = "local"
 }
 
 resource "oci_core_internet_gateway" "igw-main" {
@@ -10,11 +11,13 @@ resource "oci_core_internet_gateway" "igw-main" {
   display_name   = "Main Internet Gateway"
 }
 
+/*
 resource "oci_core_nat_gateway" "ngw-main" {
   compartment_id = oci_identity_compartment.tf-compartment.id
   vcn_id         = oci_core_vcn.main.id
   display_name   = "Main NAT Gateway"
 }
+
 
 resource "oci_bastion_bastion" "bastion" {
   bastion_type                 = "STANDARD"
@@ -23,6 +26,8 @@ resource "oci_bastion_bastion" "bastion" {
   client_cidr_block_allow_list = ["0.0.0.0/0"]
   name                         = "BastionMain"
 }
+
+
 
 data "oci_core_services" "all_oci_services" {
   filter {
@@ -40,6 +45,7 @@ resource "oci_core_service_gateway" "sgw-main" {
     service_id = lookup(data.oci_core_services.all_oci_services.services[0], "id")
   }
 }
+*/
 
 resource "oci_core_route_table" "rt-public" {
   compartment_id = oci_identity_compartment.tf-compartment.id
@@ -59,11 +65,14 @@ resource "oci_core_default_route_table" "rt-private" {
   compartment_id             = oci_identity_compartment.tf-compartment.id
   display_name               = "Private Subnet Route Table"
 
+/*
   route_rules {
     description       = "Internet Route"
     destination       = "0.0.0.0/0"
     network_entity_id = oci_core_nat_gateway.ngw-main.id
   }
+
+*/
 }
 
 resource "oci_core_subnet" "public" {
@@ -73,6 +82,7 @@ resource "oci_core_subnet" "public" {
   prohibit_public_ip_on_vnic = false
   route_table_id             = oci_core_route_table.rt-public.id
   display_name               = "Public Subnet"
+  dns_label = "public"
 }
 
 resource "oci_core_subnet" "private" {
@@ -82,6 +92,7 @@ resource "oci_core_subnet" "private" {
   prohibit_public_ip_on_vnic = true
   route_table_id             = oci_core_default_route_table.rt-private.id
   display_name               = "Private Subnet"
+  dns_label = "private"
 }
 
 # Protocol numbers: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
@@ -173,6 +184,10 @@ resource "oci_load_balancer" "applications-lb" {
   compartment_id = oci_identity_compartment.tf-compartment.id
   display_name   = "Applications LB"
   shape          = "flexible"
+  shape_details {
+    maximum_bandwidth_in_mbps = 10
+    minimum_bandwidth_in_mbps = 10
+  }
   subnet_ids     = [oci_core_subnet.public.id]
   is_private     = false
 }

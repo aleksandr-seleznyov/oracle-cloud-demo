@@ -4,6 +4,7 @@ resource "oci_core_instance" "access-vm" {
   compartment_id      = oci_identity_compartment.tf-compartment.id
   shape               = "VM.Standard.E2.1.Micro"
 
+
   metadata = {
     ssh_authorized_keys = file("ssh-keys/inst-public.key.pub")
   }
@@ -12,6 +13,7 @@ resource "oci_core_instance" "access-vm" {
     assign_public_ip = false
     display_name     = "access-vm-vnic"
     subnet_id        = oci_core_subnet.private.id
+    hostname_label = "access"
   }
 
   source_details {
@@ -43,8 +45,9 @@ resource "oci_core_instance" "kubernetes-master-vm" {
 
   create_vnic_details {
     assign_public_ip = false
-    display_name     = "access-vm-vnic"
+    display_name     = "k8s-master-vnic"
     subnet_id        = oci_core_subnet.private.id
+    hostname_label = "k8s-master"
   }
 
   source_details {
@@ -80,8 +83,9 @@ resource "oci_core_instance" "kubernetes-node-001-vm" {
 
   create_vnic_details {
     assign_public_ip = false
-    display_name     = "access-vm-vnic"
+    display_name     = "k8s-arm64-node-vnic"
     subnet_id        = oci_core_subnet.private.id
+    hostname_label = "k8s-arm64-node-001"
   }
 
   source_details {
@@ -118,8 +122,9 @@ resource "oci_core_instance" "kubernetes-node-002-vm" {
 
   create_vnic_details {
     assign_public_ip = false
-    display_name     = "access-vm-vnic"
+    display_name     = "k8s-amd64-node-002-vnic"
     subnet_id        = oci_core_subnet.private.id
+    hostname_label = "k8s-amd64-node-002"
   }
 
   source_details {
