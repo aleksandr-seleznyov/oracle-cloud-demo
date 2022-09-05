@@ -9,6 +9,7 @@ jobs:
   terraform:
     name: "Terraform"
     runs-on: ubuntu-latest
+    environment: as-private-oracle
     defaults:
       run:
         working-directory: ./terraform
