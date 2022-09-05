@@ -20,6 +20,12 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
+      - name: Create dummy keys
+        run: |
+          pwd
+          mkdir ./ssh-keys
+          touch ./ssh-keys/inst-public.key.pub
+
       - name: Terraform Init
         id: init
         run: terraform init
