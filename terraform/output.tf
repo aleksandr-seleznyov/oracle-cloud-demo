@@ -5,3 +5,7 @@ output "access-ip" {
 output "applications-ip" {
   value = oci_load_balancer.applications-lb.ip_address_details.0.ip_address
 }
+
+output "test" {
+  value = var.private_key
+}
