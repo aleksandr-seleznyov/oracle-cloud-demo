@@ -11,7 +11,7 @@ resource "oci_core_internet_gateway" "igw-main" {
   display_name   = "Main Internet Gateway"
 }
 
-/*
+
 resource "oci_core_nat_gateway" "ngw-main" {
   compartment_id = oci_identity_compartment.tf-compartment.id
   vcn_id         = oci_core_vcn.main.id
@@ -45,7 +45,7 @@ resource "oci_core_service_gateway" "sgw-main" {
     service_id = lookup(data.oci_core_services.all_oci_services.services[0], "id")
   }
 }
-*/
+
 
 resource "oci_core_route_table" "rt-public" {
   compartment_id = oci_identity_compartment.tf-compartment.id
@@ -65,14 +65,13 @@ resource "oci_core_default_route_table" "rt-private" {
   compartment_id             = oci_identity_compartment.tf-compartment.id
   display_name               = "Private Subnet Route Table"
 
-/*
+
   route_rules {
     description       = "Internet Route"
     destination       = "0.0.0.0/0"
     network_entity_id = oci_core_nat_gateway.ngw-main.id
   }
 
-*/
 }
 
 resource "oci_core_subnet" "public" {
