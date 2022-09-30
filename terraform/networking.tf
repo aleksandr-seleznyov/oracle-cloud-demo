@@ -103,7 +103,13 @@ resource "oci_core_default_security_list" "sl-vcn" {
   ingress_security_rules {
     protocol    = "6" # TCP
     source      = local.vcn_cidr_block
-    description = "Allow all inbound traffic from VCN"
+    description = "Allow all inbound TCP traffic from VCN"
+  }
+
+  ingress_security_rules {
+    protocol    = "17" # UDP
+    source      = local.vcn_cidr_block
+    description = "Allow all inbound UDP traffic from VCN"
   }
 
   ingress_security_rules {
@@ -136,7 +142,13 @@ resource "oci_core_default_security_list" "sl-vcn" {
   egress_security_rules {
     protocol    = "6" # TCP
     destination = "0.0.0.0/0"
-    description = "Allow all outbound traffic"
+    description = "Allow all outbound TCP traffic"
+  }
+
+  egress_security_rules {
+    protocol    = "17" # UDP
+    destination = "0.0.0.0/0"
+    description = "Allow all outbound UDP traffic"
   }
 
 }

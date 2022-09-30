@@ -1,0 +1,14 @@
+# role.yaml
+kind: role
+metadata:
+  id: 1664455630281311134
+  name: kube-user
+spec:
+  allow:
+    kubernetes_groups:
+      - system:masters
+    kubernetes_labels:
+      '*': '*'
+    kubernetes_users:
+      - default-teleport-sa
+  deny: {}

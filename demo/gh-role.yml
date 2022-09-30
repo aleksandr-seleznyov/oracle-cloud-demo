@@ -1,0 +1,12 @@
+kind: role
+metadata:
+  name: gh-ssh-logins
+spec:
+  allow:
+    logins: [opc]
+    node_labels:
+      '*': '*'
+version: v5
+
+
+

@@ -1,0 +1,10 @@
+kind: cluster_auth_preference
+metadata:
+  labels:
+    teleport.dev/origin: defaults
+  name: cluster-auth-preference
+spec:
+  type: github
+  webauthn:
+    rp_id: '<your teleport subdomain>' # <<<
+version: v2
